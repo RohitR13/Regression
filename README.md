@@ -1,3 +1,3 @@
 Implementation of Linear Regression, Gradient Descent, &amp; Random Fourier Features
 
-HW done in CS4641 class
+This was an assignment done in my CS4641 ML class
