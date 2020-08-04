@@ -207,7 +207,6 @@ if __name__ == '__main__':
 	X = numpy.concatenate((ones, data_X), axis=1)
 
 	init_Theta = numpy.zeros((X.shape[1], 1))
-	#change the num_iters and alpha if necessary, I only show 20 times, but for a precise estimation for Theta, you may need to increase num_iters.
 	step_history = linreg_grad_desc(init_Theta, X, data_Y, alpha=133, num_iters=20)
 	print(step_history)
 	grad_desc_theta = step_history[-1][0]
