@@ -1,18 +1,8 @@
-# hw1.py
+
 
 import os.path
 import numpy
 import math
-
-######################################
-#
-# FUNCTIONS YOU WILL NEED TO MODIFY:
-#  - linreg_closed_form
-#  - loss
-#  - linreg_grad_desc
-#  - random_fourier_features
-#
-######################################
 
 def linreg_model_sample(Theta,model_X):
 	if model_X.shape[1]==1:
@@ -84,9 +74,6 @@ def vis_linreg_model_3d(train_X, train_Y, Theta):
 	plot_helper(train_X, train_Y, sample_X, sample_Y, sample_Z)
 
 
-###################
-# YOUR CODE BELOW #
-###################
 def linreg_closed_form(train_X, train_Y):
 	'''
 	Computes the optimal parameters for the given training data in closed form
@@ -96,16 +83,9 @@ def linreg_closed_form(train_X, train_Y):
 	Returns:
 		A length D+1 numpy array with the optimal parameters	
 	'''
-	# TODO: compute the closed form solution here. Note: using numpy.linalg.lstsq(...) is *not* the correct answer
-
-	#print(numpy.array(numpy.linalg.lstsq(train_X, train_Y)[0]))
 	theta = numpy.array(numpy.dot(numpy.dot(numpy.linalg.inv(numpy.dot(numpy.transpose(train_X), train_X)), numpy.transpose(train_X)), train_Y))
 	return theta
 
-
-###################
-# YOUR CODE BELOW #
-###################
 def loss(Theta, train_X, train_Y):
 	'''
 	Computes the squared loss for the given setting of the parameters given the training data
@@ -119,19 +99,10 @@ def loss(Theta, train_X, train_Y):
 	Returns:
 		The (scalar) loss for the given parameters and data.
 	'''
-	# TODO: compute the loss here.
-	#print(((numpy.dot(train_X, Theta) - train_Y)** 2).size)
-	#print(train_X.size)
-	#print(train_Y.size)
-	#print(numpy.array(numpy.linalg.lstsq(train_X, train_Y)[1][0]))
-	#print(numpy.sum((numpy.dot(train_X, Theta) - train_Y) ** 2))
-
 	rv = 1 / (2 * (((numpy.dot(train_X, Theta) - train_Y) ** 2).size)) * numpy.sum((numpy.dot(train_X, Theta) - train_Y) ** 2)
 	return rv
 
-###################
-# YOUR CODE BELOW #
-###################
+
 def linreg_grad_desc(initial_Theta, train_X, train_Y, alpha=0.05, num_iters=500, print_iters=True):
 	'''
 	Fits parameters using gradient descent
@@ -155,8 +126,6 @@ def linreg_grad_desc(initial_Theta, train_X, train_Y, alpha=0.05, num_iters=500,
 		step_history.append((cur_Theta, cur_loss))
 		if print_iters:
 			print("Iteration: {} , Loss: {} , Theta: {}".format(k,cur_loss,cur_Theta.T))
-		#TODO: Add update equation here
-
 		cur_Theta = cur_Theta - alpha * (1 / (len(train_X))) * (numpy.dot(numpy.dot(numpy.transpose(train_X), train_X), cur_Theta) - numpy.dot(numpy.transpose(train_X), train_Y))
 	return step_history
 
@@ -185,9 +154,6 @@ def apply_RFF_transform(X,Omega,B):
 	Phi = numpy.concatenate((ones, Phi), axis=1)	
 	return Phi
 
-##################
-# YOUR CODE HERE #
-##################
 def random_fourier_features(train_X, train_Y, num_fourier_features=100, alpha=0.1, num_iters=500, print_iters=False):
 	'''
 	Creates a random set of Fourier basis functions and fits a linear model in this space.
@@ -235,21 +201,10 @@ def vis_rff_model(train_X, train_Y, Theta, Omega, B):
 
 if __name__ == '__main__':
 
-	#X, Y = load_data('1D-exp-samp.txt')
-	#θ, Ω, B = random_fourier_features(X, Y)
-	#vis_rff_model(X, Y, θ, Ω, B)
 
 	data_X, data_Y = load_data('2D-noisy-lin.txt')
 	ones = numpy.ones((data_X.shape[0], 1))
 	X = numpy.concatenate((ones, data_X), axis=1)
-	#rff_theta, rff_omega, rff_b = random_fourier_features(data_X, data_Y, num_fourier_features=1000, alpha=0.1, num_iters=500)
-	#vis_rff_model(data_X, data_Y, rff_theta, rff_omega, rff_b)
-
-	#data_X, data_Y = load_data('1D-no-noise-lin.txt')
-	#ones = numpy.ones((data_X.shape[0], 1))
-	#X = numpy.concatenate((ones, data_X), axis=1)
-	#rff_theta, rff_omega, rff_b = random_fourier_features(data_X, data_Y, num_fourier_features=800, alpha=0.1, num_iters=500)
-	#vis_rff_model(data_X, data_Y, rff_theta, rff_omega, rff_b)
 
 	init_Theta = numpy.zeros((X.shape[1], 1))
 	#change the num_iters and alpha if necessary, I only show 20 times, but for a precise estimation for Theta, you may need to increase num_iters.
@@ -260,26 +215,3 @@ if __name__ == '__main__':
 	grad_desc_loss = step_history[-1][1]
 	print(grad_desc_loss)
 
-
-
-
-
-
-
-	#data_X, data_Y = load_data('1D-no-noise-lin.txt')
-	#data_X = numpy.insert(data_X,2,data_X[1],axis=0)
-	#ones = numpy.ones((data_X.shape[0], 1))
-	#print(data_X)
-	#data_X = numpy.array(numpy.insert(data_X, 1, data_X[:, 0], axis = 1))
-	#X = numpy.concatenate((ones, data_X), axis=1)
-	#print(X)
-	#plot_helper(data_X, data_Y)
-	#theta = linreg_closed_form(X, data_Y)
-	#print(theta)
-	#Loss = loss(theta, X, data_Y)
-	#vis_linreg_model(data_X, data_Y, theta)
-	#data_X, data_Y = load_data('2D-noisy-lin.txt')
-	#plot_helper(data_X, data_Y)
-	#h=numpy.random.random((50000,100))
-	#a=h[:,:-1].copy()
-	#b=-h[:,-1].copy()
